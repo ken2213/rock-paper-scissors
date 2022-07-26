@@ -1,9 +1,7 @@
 
-const choiceArray = [
-  'rock',
-  'paper', 
-  'scissor',
-];
+const choiceArray = ['rock','paper', 'scissor'];
+let playerScore = 0;
+let computerScore = 0;
 
 
 /*
@@ -11,64 +9,76 @@ const choiceArray = [
   to the items in the Global variable choiceArray[]
 */
 let getComputerChoice = () => {
-  let randomChoice = choiceArray[Math.floor(Math.random() * choiceArray.length)];
-  return randomChoice;
+  return choiceArray[Math.floor(Math.random() * choiceArray.length)];
 };
 
-// PLAY ROUND LOGIC
+
+// PLAY ROUND FUNCTION
 let playRound = (playerSelection, computerSelection) => {
   
-  //***************** ROCK ALGORITHM *****************
-  if ((playerSelection == choiceArray[0]) && (computerSelection == choiceArray[1])) {
-
-    return `You Lose! ${choiceArray[0]} loses to ${choiceArray[1]}\n\nThis will be the First Step to Dominate the Human Race ;) \n\t\t\t\t-AI`;
-
-  } else if ((playerSelection == choiceArray[0]) && (computerSelection == choiceArray[2])) {
-
-      return `You Win! ${choiceArray[0]} Wins ${choiceArray[2]}`;
-  
-  } 
-  //***************** PAPER ALGORITHM *****************
-    else if ((playerSelection == choiceArray[1]) && (computerSelection == choiceArray[0])) {
-
-      return `You Win! ${choiceArray[1]} Wins ${choiceArray[0]}`;
-
-  } else if ((playerSelection == choiceArray[1])  && (computerSelection == choiceArray[2])) {
-
-      return `You Lose! ${choiceArray[1]} loses to ${choiceArray[2]}\n\nThis will be the First Step to Dominate the Human Race ;) \n\t\t\t\t-AI`;
-
-  } 
-  //***************** SCISSORS ALGORITHM *****************
-    else if ((playerSelection == choiceArray[2]) && (computerSelection == choiceArray[0])) {
-
-      return `You Lose! ${choiceArray[2]} loses to ${choiceArray[0]}\n\nThis will be the First Step to Dominate the Human Race ;) \n\t\t\t\t-AI`;
-
-  } else if ((playerSelection == choiceArray[2]) && (computerSelection == choiceArray[1])) {
-      
-      return `You Win! ${choiceArray[2]} wins ${choiceArray[1]}`;
-
+  if (playerSelection == computerSelection) {
+    return `Tie Game!`;
+  } else if (
+    (playerSelection == 'rock' && computerSelection == 'scissor') ||
+    (playerSelection == 'paper' && computerSelection == 'rock') ||
+    (playerSelection == 'scissor' && computerSelection == 'paper')
+    ) {
+      playerScore += 5;
+      if (playerScore === 1) {
+        return `Human: ${playerScore}`;
+      } else if (playerScore === 2) {
+          return `Human: ${playerScore}`;
+      } else if (playerScore === 3) {
+          return `Human: ${playerScore}`;
+      } else if (playerScore === 4) {
+          return `Human: ${playerScore}`;
+      } else {
+          return `Human: ${playerScore}`;
+      }
   } else {
-      return `FUCKING TIE!!!`;
+    computerScore += 5;
+    if (computerScore === 1) {
+      return `Computer: ${computerScore}`;
+    } else if (computerScore === 2) {
+        return `Computer: ${computerScore}`;
+    } else if (computerScore === 3) {
+        return `Computer: ${computerScore}`;
+    } else if (computerScore === 4) {
+        return `Computer: ${computerScore}`;
+    } else {
+      return `computer: ${computerScore}`;
+    }
   }
-
 };
 
-const playerSelection = prompt("Please Pick: Rock, Paper, Scissor");
-const computerSelection = getComputerChoice();
+
+// WINNER FUNCTION 
+let winner = (playerScore, computerScore) => {
+  if (playerScore === computerScore) {
+    console.log("TIE");
+  } else if (playerScore > computerScore) {
+    console.log("human wins")
+  } else {
+    console.log("computer Wins!");
+  }
+}
 
 
 
+// GAME FUNCTION
+let game = () => {
 
-console.log(`Player: ${playerSelection}`);
-console.log(`Computer: ${computerSelection}`);
-console.log(playRound(playerSelection, computerSelection));
+  for (i = 0; i < 5; i++) {
+    playerSelection = prompt("Please pick! Rock, Paper, or Scissors!");
+    computerSelection = getComputerChoice();
+
+    console.log(`Player: ${playerSelection}`);
+    console.log(`Computer: ${computerSelection}`);
+    console.log(playRound(playerSelection, computerSelection));
+  }
+  winner(playerScore, computerScore);
+};
 
 
-
-
-
-
-
-
-
+game();
 
