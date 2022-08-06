@@ -1,84 +1,56 @@
+let playerScore = 0
+let computerScore = 0
+const buttons = document.querySelectorAll('input')
 
-const choiceArray = ['rock','paper', 'scissor'];
-let playerScore = 0;
-let computerScore = 0;
-
-
-/*
-  Here lies the Random Choices of Computer which is limited 
-  to the items in the Global variable choiceArray[]
-*/
-let getComputerChoice = () => {
-  return choiceArray[Math.floor(Math.random() * choiceArray.length)];
-};
-
-
-// PLAY ROUND FUNCTION
-let playRound = (playerSelection, computerSelection) => {
-  
-  if (playerSelection == computerSelection) {
-    return `Tie Game!`;
-  } else if (
-    (playerSelection == 'rock' && computerSelection == 'scissor') ||
-    (playerSelection == 'paper' && computerSelection == 'rock') ||
-    (playerSelection == 'scissor' && computerSelection == 'paper')
-    ) {
-      playerScore += 5;
-      if (playerScore === 1) {
-        return `Human: ${playerScore}`;
-      } else if (playerScore === 2) {
-          return `Human: ${playerScore}`;
-      } else if (playerScore === 3) {
-          return `Human: ${playerScore}`;
-      } else if (playerScore === 4) {
-          return `Human: ${playerScore}`;
-      } else {
-          return `Human: ${playerScore}`;
-      }
-  } else {
-    computerScore += 5;
-    if (computerScore === 1) {
-      return `Computer: ${computerScore}`;
-    } else if (computerScore === 2) {
-        return `Computer: ${computerScore}`;
-    } else if (computerScore === 3) {
-        return `Computer: ${computerScore}`;
-    } else if (computerScore === 4) {
-        return `Computer: ${computerScore}`;
-    } else {
-      return `computer: ${computerScore}`;
-    }
-  }
-};
-
-
-// WINNER FUNCTION 
-let winner = (playerScore, computerScore) => {
-  if (playerScore === computerScore) {
-    console.log("TIE");
-  } else if (playerScore > computerScore) {
-    console.log("human wins")
-  } else {
-    console.log("computer Wins!");
-  }
+function computerPlay() {
+    let choices = ['rock', 'paper', 'scissors']
+    return choices[Math.floor(Math.random() * choices.length)]
 }
 
+function disableButtons() {
+    buttons.forEach(elem => {
+        elem.disabled = true
+    })
+}
 
+function playRound(playerSelection) {
+    let computerSelection = computerPlay()
+    let result = ""
 
-// GAME FUNCTION
-let game = () => {
+    if ((playerSelection == 'rock' && computerSelection == 'scissors') ||
+        (playerSelection == 'scissors' && computerSelection == 'paper') ||
+        (playerSelection == 'paper' && computerSelection == 'rock')) {
+        
+        playerScore += 1
+        result = ('You win! ' + playerSelection + ' beats ' + computerSelection
+            + "<br><br>Player score: " + playerScore + "<br>Computer score: " + computerScore)
 
-  for (i = 0; i < 5; i++) {
-    playerSelection = prompt("Please pick! Rock, Paper, or Scissors!");
-    computerSelection = getComputerChoice();
+        if (playerScore == 5) {
+            result += '<br><br>You won the game! Reload the page to play again'
+            disableButtons()
+        }
+    }
+    else if (playerSelection == computerSelection) {
+        result = ('It\'s a tie. You both chose ' + playerSelection
+            + "<br><br>Player score: " + playerScore + "<br>Computer score: " + computerScore)
+    }
+    else {
+        computerScore += 1
+        result = ('You lose! ' + computerSelection + ' beats ' + playerSelection
+            + "<br><br>Player score: " + playerScore + "<br>Computer score: " + computerScore)
 
-    console.log(`Player: ${playerSelection}`);
-    console.log(`Computer: ${computerSelection}`);
-    console.log(playRound(playerSelection, computerSelection));
-  }
-  winner(playerScore, computerScore);
-};
+        if (computerScore == 5) {
+            result += '<br><br>I won the game! Reload the page to play again'
+            disableButtons()
+        }
+    }
 
+    document.getElementById('result').innerHTML = result
+    return
+}
 
-game();
-
+buttons.forEach(button =>{
+    button.addEventListener('click', function(){
+        playRound(button.value)
+    })
+})
